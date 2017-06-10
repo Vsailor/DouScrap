@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Configuration;
+using System.IO;
 using System.Net;
 using System.Text;
 
@@ -32,17 +33,14 @@ namespace DouScrap
             return responseText;
         }
 
-        // TODO Move cookies to configuration file
         private CookieContainer GetCookieContainer()
         {
+            const string csrftokenName = "csrftoken";
+            const string sessionidName = "sessionid";
+
             var cookieContainer = new CookieContainer();
-            cookieContainer.Add(new Cookie("_ym_uid", "148450156163488382", "/", Host));
-            cookieContainer.Add(new Cookie("topinfo-52", "1", "/", Host));
-            cookieContainer.Add(new Cookie("max-header-247", "1", "/", Host));
-            cookieContainer.Add(new Cookie("sessionid", "vs1zbioz60mry6xvneuyl67pg8bs8qcz", "/", Host));
-            cookieContainer.Add(new Cookie("csrftoken", "gFur4zm5oItCdOgAy1a4TXNboRAI6VTJmf0fwuCOJxUM6cFkoFlSrerAyGpFHm95", "/", Host));
-            cookieContainer.Add(new Cookie("_ga", "GA1.2.285289182.1484501560", "/", Host));
-            cookieContainer.Add(new Cookie("_gid", "GA1.2.2085413531.1497033352", "/", Host));
+            cookieContainer.Add(new Cookie(csrftokenName, ConfigurationManager.AppSettings[csrftokenName], "/", Host));
+            cookieContainer.Add(new Cookie(sessionidName, ConfigurationManager.AppSettings[sessionidName], "/", Host));
 
             return cookieContainer;
         }
